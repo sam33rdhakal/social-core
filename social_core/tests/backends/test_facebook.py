@@ -11,7 +11,7 @@ class FacebookOAuth2Test(OAuth2Test):
     user_data_url = 'https://graph.facebook.com/v{version}/me'.format(
         version=API_VERSION
     )
-    expected_username = 'foobar'
+    expected_username = '110011001100010'
     access_token_body = json.dumps({
         'access_token': 'foobar',
         'token_type': 'bearer'
