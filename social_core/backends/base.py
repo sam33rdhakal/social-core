@@ -86,6 +86,8 @@ class BaseAuth(object):
         if user:
             user.social_user = out.get('social')
             user.is_new = out.get('is_new')
+        if 'response' in kwargs and 'extra' in kwargs['response']:
+            user.extras = kwargs['response']['extra']
         return user
 
     def disconnect(self, *args, **kwargs):
@@ -222,6 +224,10 @@ class BaseAuth(object):
             raise AuthFailed(self, str(err))
         response.raise_for_status()
         return response
+
+    def get_image(self, url, *args, **kwargs):
+        response = self.request(url, 'HEAD', *args, **kwargs)
+        return {'image': response.history[0].headers['location']}
 
     def get_json(self, url, *args, **kwargs):
         return self.request(url, *args, **kwargs).json()

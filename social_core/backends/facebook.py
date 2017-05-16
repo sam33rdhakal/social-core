@@ -29,6 +29,8 @@ class FacebookOAuth2(BaseOAuth2):
         'https://graph.facebook.com/v{version}/{uid}/permissions'
     REVOKE_TOKEN_METHOD = 'DELETE'
     USER_DATA_URL = 'https://graph.facebook.com/v{version}/me'
+    USER_IMAGE_URL = 'https://graph.facebook.com/v2.3/me/picture'
+
     EXTRA_DATA = [
         ('id', 'id'),
         ('expires', 'expires'),
@@ -76,8 +78,10 @@ class FacebookOAuth2(BaseOAuth2):
             ).hexdigest()
 
         version = self.setting('API_VERSION', API_VERSION)
-        return self.get_json(self.USER_DATA_URL.format(version=version),
+        user = self.get_json(self.USER_DATA_URL.format(version=version),
                              params=params)
+        user.update({'extra': self.get_image(self.USER_IMAGE_URL, params=params)})
+        return user
 
     def process_error(self, data):
         super(FacebookOAuth2, self).process_error(data)

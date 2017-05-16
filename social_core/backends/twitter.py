@@ -26,6 +26,7 @@ class TwitterOAuth(BaseOAuth1):
     def get_user_details(self, response):
         """Return user details from Twitter account"""
         fullname, first_name, last_name = self.get_user_names(response['name'])
+        response['extra'] = {'image': response['profile_image_url']}
         return {'username': response['screen_name'],
                 'email': response.get('email', ''),
                 'fullname': fullname,

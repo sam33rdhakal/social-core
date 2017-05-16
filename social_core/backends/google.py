@@ -42,6 +42,9 @@ class BaseGoogleAuth(object):
         fullname, first_name, last_name = self.get_user_names(
             name, given_name, family_name
         )
+
+        response['extra'] = {'image': response['image']['url']}
+
         return {'username': email.split('@', 1)[0],
                 'email': email,
                 'fullname': fullname,
