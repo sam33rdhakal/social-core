@@ -187,3 +187,8 @@ class GoogleOpenId(OpenIdAuth):
         http://axschema.org/contact/email
         """
         return details['email']
+
+
+class CustomGooglePlusAuth(GooglePlusAuth):
+    def user_data(self, *args, **kwargs):
+        return None
